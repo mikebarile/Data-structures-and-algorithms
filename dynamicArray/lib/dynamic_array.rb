@@ -20,21 +20,21 @@ class DynamicArray
   end
 
   def pop
-    raise 'index out of bounds' if length == 0
+    raise 'index out of bounds' if @length == 0
     @length -= 1
-    val = @store[length]
-    @store[length] = nil
+    val = @store[@length]
+    @store[@length] = nil
     val
   end
 
   def push(val)
-    resize! if length == capacity
+    resize! if @length == @capacity
     @store[@length] = val
     @length += 1
   end
 
   def shift
-    raise 'index out of bounds' if length == 0
+    raise 'index out of bounds' if @length == 0
     new_store = StaticArray.new(@capacity)
     i = 0
     @length -= 1
@@ -79,7 +79,7 @@ class DynamicArray
   def resize!
     new_store = @capacity == 0 ? StaticArray.new(1) : StaticArray.new(@capacity * 2)
     i = 0
-    while i < length
+    while i < @length
       new_store[i] = @store[i]
       i += 1
     end

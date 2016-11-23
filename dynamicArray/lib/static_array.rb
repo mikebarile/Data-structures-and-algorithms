@@ -1,13 +1,13 @@
 # This class just dumbs down a regular Array to be staticly sized.
 class StaticArray
-  def initialize(length)
+  def initialize(capacity)
     @store = []
-    @length = length
+    @capacity = capacity
   end
 
   # O(1)
   def [](index)
-    if index >= @length
+    if index >= @capacity
       raise 'index out of bounds'
     end
     @store[index]
@@ -15,7 +15,7 @@ class StaticArray
 
   # O(1)
   def []=(index, value)
-    if index >= @length
+    if index >= @capacity
       raise 'index out of bounds'
     end
     @store[index] = value
