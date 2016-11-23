@@ -22,5 +22,4 @@ class StaticArray
   end
 
   protected
-  attr_accessor :store
 end
