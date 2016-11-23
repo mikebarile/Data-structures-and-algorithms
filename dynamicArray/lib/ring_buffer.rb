@@ -58,13 +58,14 @@ class RingBuffer
   attr_writer :length
 
   def resize!
-    @capacity = @capacity == 0 ? 1 : @capacity * 2
-    new_store = StaticArray.new(@capacity)
+    new_capacity = @capacity == 0 ? 1 : @capacity * 2
+    new_store = StaticArray.new(new_capacity)
     i = 0
     while i < @length
       new_store[i] = self[i]
       i += 1
     end
+    @capacity = new_capacity
     @start_idx = 0
     @store = new_store
   end
