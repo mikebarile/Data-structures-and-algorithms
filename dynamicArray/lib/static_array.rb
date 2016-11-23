@@ -1,7 +1,7 @@
 # This class just dumbs down a regular Array to be staticly sized.
 class StaticArray
   def initialize(length)
-    @arr = []
+    @store = []
     @length = length
   end
 
@@ -10,7 +10,7 @@ class StaticArray
     if index >= @length
       raise 'index out of bounds'
     end
-    @arr[index]
+    @store[index]
   end
 
   # O(1)
@@ -18,8 +18,9 @@ class StaticArray
     if index >= @length
       raise 'index out of bounds'
     end
-    @arr[index] = value
+    @store[index] = value
   end
 
   protected
+  attr_accessor :store
 end
