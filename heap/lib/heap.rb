@@ -5,15 +5,29 @@ class BinaryMinHeap
   end
 
   def count
+    @store.length
   end
 
   def extract
+    raise 'no elements' if count == 0
+    val = @store[0]
+
+    if count > 1
+      @store[0] = @store.pop
+      BinaryMinHeap.heapify_down(@store, 0, &@prc)
+    else
+      store.pop
+    end
   end
 
   def peek
+    raise 'no elements' if count == 0
+    store[0]
   end
 
   def push(val)
+    @store.push(val)
+    BinaryMinHeap.heapify_up(@store, count - 1, &@prc)
   end
 
   protected
@@ -37,37 +51,26 @@ class BinaryMinHeap
 
   def self.heapify_down(array, parent_idx, len = array.length, &prc)
     prc ||= Proc.new { |el1, el2| el1 <=> el2 }
-
     child1, child2 = child_indices(len, parent_idx)
+    parent_val = array[parent_idx]
+
     children = []
-    children << array[child1] if array[child1]
-    children << array[child2] if array[child2]
-    if children.all? { |child| prc.call(array[parent_idx], child) <= 0}
+    children << array[child1] if child1
+    children << array[child2] if child2
+
+    if children.all? { |child| prc.call(parent_val, child) <= 0 }
       return array
     end
 
-    i = parent_idx
-    while i <= parent_index(len - 1)
-      child1, child2 = child_indices(len, i)
-      children = []
-      children << array[child1] if array[child1]
-      children << array[child2] if array[child2]
-      if children.length == 1
-        smallest = child1
-      elsif children.length == 0
-        break
-      else
-        smallest = prc.call(child1, child2) == -1 ? child1 : child2
-      end
-
-      if prc.call(array[i], array[smallest]) >= 0
-        swap!(array, i, smallest)
-        i = smallest
-      else
-        break
-      end
+    smallest = nil
+    if children.length == 1
+      smallest = child1
+    else
+      smallest = prc.call(children[0], children[1]) == -1 ? child1 : child2
     end
-    heapify_down(array, parent_idx, len, &prc)
+
+    swap!(array, parent_idx, smallest)
+    heapify_down(array, smallest, len, &prc)
   end
 
   def self.heapify_up(array, child_idx, len = array.length, &prc)
