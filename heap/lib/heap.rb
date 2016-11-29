@@ -18,6 +18,8 @@ class BinaryMinHeap
     else
       store.pop
     end
+
+    val
   end
 
   def peek
